@@ -15,6 +15,7 @@ export async function validateUserFraction(userFraction: number | undefined): Pr
 export async function validateStatus(status: string | undefined, hasUserFraction: boolean): Promise<void> {
     // If status was set, perform basic validation
     if (status != 'completed' && status != 'inProgress' && status != 'halted' && status != 'draft') {
+        console.error(`Invalid status provided! Must be one of 'completed', 'inProgress', 'halted', 'draft'. Got ${status ?? "undefined"}`)
         return Promise.reject(new Error(`Invalid status provided! Must be one of 'completed', 'inProgress', 'halted', 'draft'. Got ${status ?? "undefined"}`))
     }
 

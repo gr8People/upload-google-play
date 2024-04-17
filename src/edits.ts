@@ -73,7 +73,7 @@ export async function runUpload(
 
 async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): Promise<string | void> {
     const internalSharingDownloadUrls: string[] = []
-    
+
     // Check the 'track' for 'internalsharing', if so switch to a non-track api
     if (options.track === 'internalsharing') {
         core.debug("Track is Internal app sharing, switch to special upload api")
@@ -96,7 +96,7 @@ async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): 
         for (const versionCode of versionCodes) {
             const url = inferInternalSharingDownloadUrl(options.applicationId, versionCode);
             core.setOutput("internalSharingDownloadUrl", url);
-            core.exportVariable("INTERNAL_SHARING_DOWNLOAD_URL", url);      
+            core.exportVariable("INTERNAL_SHARING_DOWNLOAD_URL", url);
             internalSharingDownloadUrls.push(url);
         }
 
@@ -123,7 +123,7 @@ async function uploadToPlayStore(options: EditOptions, releaseFiles: string[]): 
     }
 
     core.setOutput("internalSharingDownloadUrls", internalSharingDownloadUrls);
-    core.exportVariable("INTERNAL_SHARING_DOWNLOAD_URLS", internalSharingDownloadUrls);    
+    core.exportVariable("INTERNAL_SHARING_DOWNLOAD_URLS", internalSharingDownloadUrls);
 }
 
 async function uploadInternalSharingRelease(options: EditOptions, releaseFile: string): Promise<string> {
@@ -135,7 +135,7 @@ async function uploadInternalSharingRelease(options: EditOptions, releaseFile: s
     } else {
         throw Error(`${releaseFile} is invalid (missing or invalid file extension).`)
     }
-    
+
     if (!res.downloadUrl) throw Error('Uploaded file has no download URL.')
     core.setOutput("internalSharingDownloadUrl", res.downloadUrl);
     core.exportVariable("INTERNAL_SHARING_DOWNLOAD_URL", res.downloadUrl);

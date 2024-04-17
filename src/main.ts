@@ -26,6 +26,7 @@ export async function run() {
         const existingEditId = core.getInput('existingEditId');
 
         await validateServiceAccountJson(serviceAccountJsonRaw, serviceAccountJson)
+        core.info('Service account json validated');
 
         // Validate user fraction
         let userFractionFloat: number | undefined
@@ -35,9 +36,11 @@ export async function run() {
             userFractionFloat = undefined
         }
         await validateUserFraction(userFractionFloat)
+        core.info('User fraction validated');
 
         // Validate release status
         await validateStatus(status, userFractionFloat != undefined && !isNaN(userFractionFloat))
+        core.info('Status validated');
 
         // Validate the inAppUpdatePriority to be a valid number in within [0, 5]
         let inAppUpdatePriorityInt: number | undefined
@@ -47,12 +50,14 @@ export async function run() {
             inAppUpdatePriorityInt = undefined
         }
         await validateInAppUpdatePriority(inAppUpdatePriorityInt)
+        core.info('In-app update priority validated');
 
         // Check release files while maintaining backward compatibility
         if (releaseFile) {
             core.warning(`WARNING!! 'releaseFile' is deprecated and will be removed in a future release. Please migrate to 'releaseFiles'`)
         }
         const validatedReleaseFiles: string[] = await validateReleaseFiles(releaseFiles ?? [releaseFile])
+        core.info('Release files validated');
 
         if (whatsNewDir != undefined && whatsNewDir.length > 0 && !fs.existsSync(whatsNewDir)) {
             core.warning(`Unable to find 'whatsnew' directory @ ${whatsNewDir}`);
