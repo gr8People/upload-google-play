@@ -91,10 +91,18 @@ export async function run() {
             }
         )
     } catch (error: unknown) {
-        if (error instanceof Error) {
-            core.setFailed(error.message)
-        } else {
-            core.setFailed('Unknown error occurred.')
+        switch (true) {
+            case error instanceof Error:
+                core.setFailed(error.message);
+                break;
+
+            case typeof error === 'string':
+                core.setFailed(error);
+                break;
+
+            default:
+                core.setFailed('Unknown error occurred.');
+                break;
         }
     } finally {
         if (core.getInput('serviceAccountJsonPlainText', { required: false})) {
